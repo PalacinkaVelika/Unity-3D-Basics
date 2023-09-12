@@ -59,9 +59,9 @@
     <Compile Include="Assets\Scripts 1\InputHandle.cs" />
     <Compile Include="Assets\UI_handler.cs" />
     <Compile Include="Assets\playerStuff\Observer\IObservable.cs" />
-    <Compile Include="Assets\playerStuff\Observer\IObserver.cs" />
-    <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\VolumeSetting.cs" />
+    <Compile Include="Assets\GameManager.cs" />
+    <Compile Include="Assets\playerStuff\Observer\IObserver.cs" />
     <Compile Include="Assets\Movement.cs" />
   </ItemGroup>
   <ItemGroup>

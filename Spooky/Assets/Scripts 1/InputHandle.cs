@@ -30,12 +30,6 @@ public class InputHandle : MonoBehaviour, IObservable {
     }
 
     void Update() {
-        if (move.ReadValue<Vector2>().x != 0 || move.ReadValue<Vector2>().y != 0) {
-        //    print("Walk action"); 
-        }
-        if (look.ReadValue<Vector2>().x != 0 || look.ReadValue<Vector2>().y != 0) {
-        //    print("Look action");
-        }
         if (sprint.ReadValue<float>() != 0f) {
         //    print("Sprint action");
         }
@@ -82,5 +76,17 @@ public class InputHandle : MonoBehaviour, IObservable {
             idk.OnNotify(data);
         }
     }
-    
+
+    /** Getters **/
+    public Vector2 MoveAction {
+        get {
+            return move.ReadValue<Vector2>();
+        }
+    }
+    public Vector2 LookAction {
+        get {
+            return look.ReadValue<Vector2>();
+        }
+    }
+
 }

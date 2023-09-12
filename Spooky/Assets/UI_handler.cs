@@ -45,7 +45,6 @@ public class UI_handler : MonoBehaviour, IObserver {
     }
 
     public void OnNotify<T>(T data) {
-        print("UI notified with " + data);
         switch (data) {
             case "Pause":
                 if(gameManager.state == GameState.Paused) {
