@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
-public class Movement : MonoBehaviour{
+public class Movement : MonoBehaviour, IObserver{
 
     InputHandle inputHandle;
     public CinemachineVirtualCamera playerCam;
@@ -19,29 +19,45 @@ public class Movement : MonoBehaviour{
     public Vector3 velocity;
     private float verticalLookRotation;
 
+    public bool canControl = true;
+
     void Start() {
+        FindObjectOfType<GameManager>().AddObserver(this);
         inputHandle = GetComponent<InputHandle>();
         characterController = GetComponent<CharacterController>();
         velocity = new Vector3(0, -10, 0);
     }
 
     void Update() {
-        moveInput = inputHandle.MoveAction;
-        lookInput = inputHandle.LookAction;
+        if (canControl) {
+            moveInput = inputHandle.MoveAction;
+            lookInput = inputHandle.LookAction;
 
-        float horizontal = moveInput[0];
-        float vertical = moveInput[1];
+            float horizontal = moveInput[0];
+            float vertical = moveInput[1];
 
-        Vector3 movementDirection = new Vector3(horizontal, 0, vertical);
-        movementDirection = transform.TransformDirection(movementDirection);
-        movementDirection *= movementSpeed;
-        characterController.Move((movementDirection + velocity) * Time.deltaTime);
-        float mouseX = lookInput[0] * lookSensitivity;
-        float mouseY = lookInput[1] * lookSensitivity;
-        transform.Rotate(Vector3.up * mouseX);
-        verticalLookRotation += mouseY;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
-        playerCam.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+            Vector3 movementDirection = new Vector3(horizontal, 0, vertical);
+            movementDirection = transform.TransformDirection(movementDirection);
+            movementDirection *= movementSpeed;
+            characterController.Move((movementDirection + velocity) * Time.deltaTime);
+            float mouseX = lookInput[0] * lookSensitivity;
+            float mouseY = lookInput[1] * lookSensitivity;
+            transform.Rotate(Vector3.up * mouseX);
+            verticalLookRotation += mouseY;
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+            playerCam.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+        }
     }
 
+    public void OnNotify<T>(T data) {
+        print("Movement dostal " + data);
+        switch (data) {
+            case GameState.Paused:
+                canControl = false;
+                break;
+            case GameState.WalkMode:
+                canControl = true;
+                break;
+        }
+    }
 }

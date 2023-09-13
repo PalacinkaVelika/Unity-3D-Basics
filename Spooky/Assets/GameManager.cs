@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour, IObservable {
-
+    //Gamestates, time control
     private List<IObserver> observers = new List<IObserver>();
     private static GameManager instance;
     public GameState state;
@@ -24,7 +24,12 @@ public class GameManager : MonoBehaviour, IObservable {
         NotifyObservers(state);
     }
 
-
+    void TimeResume() {
+        Time.timeScale = 1.0f;
+    }
+    void TimeStop() {
+        Time.timeScale = 0f;
+    }
 
     //Singleton
     public static GameManager Instance {
